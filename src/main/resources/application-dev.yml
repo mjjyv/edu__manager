@@ -1,0 +1,32 @@
+# src/main/resources/application-dev.yml
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=TrainingDB;encrypt=true;trustServerCertificate=true
+    username: training_user
+    password: YourSecurePassword123
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    
+    # Cấu hình HikariCP (Connection Pool) cho hiệu năng cao
+    hikari:
+      pool-name: TrainingPool-Hikari
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 20000
+      max-lifetime: 1800000
+
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        # Chiến lược đặt tên: Chuyển camelCase (Java) sang snake_case (SQL)
+        physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
