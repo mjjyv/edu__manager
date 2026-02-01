@@ -11,7 +11,8 @@ const adminClassService = {
     },
     getAllMajors: async () => {
         const response = await api.get('/chuyen-nganh');
-        return response.data; // Trả về mảng trực tiếp
+        // QUAN TRỌNG: Trả về mảng dữ liệu trực tiếp
+        return response.data; 
     }
 };
 

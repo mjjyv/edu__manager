@@ -42,13 +42,11 @@ const CreateClassModal = ({ show, onClose, onSuccess }) => {
 
     // ... Giữ nguyên phần handleSubmit và render form
     const handleSubmit = async (e) => {
-        // ... (giữ nguyên code cũ)
         e.preventDefault();
         setLoading(true);
         try {
             await adminClassService.create(formData);
             alert('Thêm lớp thành công!');
-            setFormData({ maLop: '', tenLop: '', maNganh: '' }); 
             onSuccess(); 
             onClose();
         } catch (err) {
@@ -57,6 +55,7 @@ const CreateClassModal = ({ show, onClose, onSuccess }) => {
             setLoading(false);
         }
     };
+
 
     if (!show) return null;
 
@@ -69,8 +68,7 @@ const CreateClassModal = ({ show, onClose, onSuccess }) => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* ... Giữ nguyên các input Mã Lớp, Tên Lớp ... */}
-                     <div>
+                    <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Mã Lớp (*)</label>
                         <input
                             required
@@ -90,7 +88,6 @@ const CreateClassModal = ({ show, onClose, onSuccess }) => {
                             onChange={e => setFormData({ ...formData, tenLop: e.target.value })}
                         />
                     </div>
-
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Chuyên ngành (*)</label>
                         <select
@@ -100,8 +97,8 @@ const CreateClassModal = ({ show, onClose, onSuccess }) => {
                             onChange={e => setFormData({ ...formData, maNganh: e.target.value })}
                         >
                             <option value="">-- Chọn Chuyên ngành --</option>
-                            {/* Render an toàn: Kiểm tra độ dài trước khi map */}
-                            {majors && majors.length > 0 && majors.map(m => (
+                            {/* Render an toàn với Optional Chaining */}
+                            {majors?.map(m => (
                                 <option key={m.maNganh} value={m.maNganh}>
                                     {m.tenNganh} ({m.maNganh})
                                 </option>

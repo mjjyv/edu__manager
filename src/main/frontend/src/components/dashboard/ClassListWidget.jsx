@@ -64,7 +64,7 @@ const ClassListWidget = () => {
                 </div>
                 <button 
                     onClick={() => setShowModal(true)}
-                    className="bg-uni-primary text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 hover:bg-blue-800 transition shadow-sm"
+                    className="bg-blue-800 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2 hover:bg-blue-800 transition shadow-sm"
                 >
                     <Plus size={16} /> Thêm lớp
                 </button>
@@ -87,7 +87,7 @@ const ClassListWidget = () => {
                         ) : (classes && classes.length > 0) ? (
                             classes.map((lop) => (
                                 <tr key={lop.maLop} className="hover:bg-gray-50 transition">
-                                    <td className="p-3 font-medium text-uni-primary">{lop.maLop}</td>
+                                    <td className="p-3 font-medium text-blue-800">{lop.maLop}</td>
                                     <td className="p-3 text-gray-700">{lop.tenLop}</td>
                                     <td className="p-3">
                                         <div className="flex flex-col">
