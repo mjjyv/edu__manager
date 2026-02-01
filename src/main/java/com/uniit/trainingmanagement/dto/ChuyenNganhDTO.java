@@ -1,15 +1,18 @@
 package com.uniit.trainingmanagement.dto;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class ChuyenNganhDTO {
+    @NotBlank(message = "Mã ngành không được để trống")
     private String maNganh;
+
+    @NotBlank(message = "Tên ngành không được để trống")
     private String tenNganh;
+
+    @NotBlank(message = "Vui lòng chọn Khoa chủ quản")
     private String maKhoa;
-    private String tenKhoa;
+    
+    private String tenKhoa; // Dùng để hiển thị
 }

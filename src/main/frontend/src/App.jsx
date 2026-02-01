@@ -6,6 +6,7 @@ import StudentManager from './pages/admin/StudentManager';
 import SubjectManager from './pages/admin/SubjectManager';
 import ClassManager from './pages/admin/ClassManager';
 import AdminDashboardHome from './pages/admin/AdminDashboardHome';
+import TrainingManager from './pages/admin/TrainingManager';
 
 
 // Các component Placeholder (XYZ) cho Giai đoạn 5.2
@@ -50,6 +51,8 @@ function App() {
               <Route path="admin/sinh-vien" element={<StudentManager />} />
               <Route path="admin/mon-hoc" element={<SubjectManager />} />
               <Route path="admin/mo-lop" element={<ClassManager />} />
+              <Route path="admin/dao-tao" element={<TrainingManager />} />
+
             </Route>
             
             {/* Sinh viên sub-routes bên trong Dashboard */}
