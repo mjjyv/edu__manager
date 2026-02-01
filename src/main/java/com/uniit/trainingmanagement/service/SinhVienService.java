@@ -10,28 +10,42 @@ import com.uniit.trainingmanagement.repository.SinhVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
+
 
 @Service
 public class SinhVienService {
     @Autowired private SinhVienRepository sinhVienRepository;
     @Autowired private LopQuanLyRepository lopQuanLyRepository;
 
+
+    // 5. Thêm mới Sinh viên
+    @Transactional
     public SinhVienDTO createSinhVien(SinhVienDTO dto) {
         LopQuanLy lop = lopQuanLyRepository.findById(dto.getMaLop())
                 .orElseThrow(() -> new RuntimeException("Lớp quản lý không tồn tại"));
-        
+
         SinhVien sv = new SinhVien();
         sv.setMaSV(dto.getMaSV());
         sv.setHoTen(dto.getHoTen());
         sv.setNgaySinh(dto.getNgaySinh());
         sv.setGioiTinh(dto.getGioiTinh());
         sv.setLopQuanLy(lop);
-        
-        sinhVienRepository.save(sv);
-        return dto;
+        sv.setTrangThai("DANG_HOC");
+
+        return convertToDTO(sinhVienRepository.save(sv));
+    }
+
+    // 1. Tìm kiếm theo Mã SV (Phục vụ thanh Search bổ sung)
+    public Optional<SinhVienDTO> getSinhVienById(String maSV) {
+        return sinhVienRepository.findById(maSV)
+                .map(this::convertToDTO);
     }
 
 
@@ -124,4 +138,18 @@ public class SinhVienService {
             updated.getLopQuanLy().getMaLop()
         );
     }
+
+
+    // Hàm tiện ích: Chuyển đổi Entity sang DTO
+    private SinhVienDTO convertToDTO(SinhVien sv) {
+        return new SinhVienDTO(
+            sv.getMaSV(),
+            sv.getHoTen(),
+            sv.getNgaySinh(),
+            sv.getGioiTinh(),
+            sv.getLopQuanLy() != null ? sv.getLopQuanLy().getMaLop() : null
+        );
+    }
+
+
 }

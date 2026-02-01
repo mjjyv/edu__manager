@@ -67,10 +67,10 @@ const StudentDetailModal = ({ show, onClose, student }) => {
                         <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Thông tin đào tạo</h3>
 
                         <div className="flex items-center gap-3">
-                            <Building className="text-uni-primary" size={18} />
+                            <Building className="text-blue-600" size={18} />
                             <div>
                                 <p className="text-xs text-gray-400">Lớp quản lý</p>
-                                <p className="font-medium text-uni-primary">{student.tenLop}</p>
+                                <p className="font-medium text-blue-600">{student.tenLop}</p>
                                 <p className="text-xs text-gray-500">({student.maLop})</p>
                             </div>
                         </div>

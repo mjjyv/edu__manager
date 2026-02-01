@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "giang_vien")
 @Data
@@ -23,10 +25,13 @@ public class GiangVien {
     @Column(unique = true)
     private String email;
 
+
     @ManyToOne
     @JoinColumn(name = "ma_khoa", nullable = false)
     private Khoa khoa;
 
+    // SỬA LỖI: Ngắt vòng lặp khi lấy giảng viên (tránh load hết lớp học phần)
     @OneToMany(mappedBy = "giangVien")
+    @JsonIgnore 
     private List<LopHocPhan> lopHocPhans;
 }

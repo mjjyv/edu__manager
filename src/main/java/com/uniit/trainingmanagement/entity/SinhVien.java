@@ -12,23 +12,26 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SinhVien {
     @Id
-    @Column(name = "ma_sv", length = 15)
+    @Column(name = "ma_sv")
     private String maSV;
 
-    @Column(nullable = false)
+    @Column(name = "ho_ten", nullable = false)
     private String hoTen;
 
+    @Column(name = "ngay_sinh")
     private LocalDate ngaySinh;
+
+    @Column(name = "gioi_tinh", columnDefinition = "NVARCHAR(10)")
     private String gioiTinh;
 
-    @ManyToOne
+    // Quan hệ với lớp quản lý (Many-to-One)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ma_lop")
     private LopQuanLy lopQuanLy;
 
-    // === CÁC TRƯỜNG MỚI ĐỂ PHỤC VỤ SOFT DELETE ===
-    
+    // --- Cập nhật cho Giai đoạn 4 & 5 (Soft Delete) ---
     @Column(name = "trang_thai")
-    private String trangThai = "DANG_HOC"; // Mặc định là đang học
+    private String trangThai = "DANG_HOC"; // DANG_HOC, DA_XOA, DA_TOT_NGHIEP
 
     @Column(name = "ngay_xoa")
     private LocalDateTime ngayXoa;

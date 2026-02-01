@@ -59,4 +59,15 @@ public class SinhVienController {
             @Valid @RequestBody SinhVienUpdateDTO dto) {
         return ResponseEntity.ok(sinhVienService.updateSinhVien(maSV, dto));
     }
+
+    // Thêm Endpoint tìm kiếm theo Mã sinh viên
+    @GetMapping("/{maSV}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SinhVienDTO> getStudentById(@PathVariable String maSV) {
+        // Gọi Service tìm kiếm (Sử dụng logic có sẵn hoặc findById của Repository)
+        // Lưu ý: Logic này nên trả về DTO cơ bản dùng cho bảng danh sách
+        return sinhVienService.getSinhVienById(maSV)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

@@ -3,6 +3,9 @@ import LoginPage from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import StudentManager from './pages/admin/StudentManager';
+import SubjectManager from './pages/admin/SubjectManager';
+import ClassManager from './pages/admin/ClassManager';
+import AdminDashboardHome from './pages/admin/AdminDashboardHome';
 
 
 // Các component Placeholder (XYZ) cho Giai đoạn 5.2
@@ -19,45 +22,44 @@ const AdminModule = () => (
 
 
 
+const DashboardHome = () => {
+  // Lấy thông tin user/role từ localStorage (giả định đã lưu khi login thành công)
+  const user = JSON.parse(localStorage.getItem('user'));
+  const role = user?.vaiTro;
+
+
+  if (role === 'ADMIN') return <AdminDashboardHome />;
+  return <div className="p-8">Chào mừng bạn quay lại hệ thống.</div>;
+};
+
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 
-        {/* Protected Routes */}
+        {/* Nhóm Route dùng chung giao diện Dashboard */}
         <Route element={<ProtectedRoute allowedRoles={['ADMIN', 'GIANG_VIEN', 'SINH_VIEN']} />}>
-        <Route path="/" element={<Dashboard />}>
-          {/* Admin Routes */}
-          <Route path="admin/sinh-vien" element={<StudentManager />} />
-          <Route path="admin/mon-hoc" element={<div className="p-4">Quản lý Môn học</div>} />
-          
-          {/* Trang chủ mặc định sau login */}
-          <Route index element={<div className="p-4">Chào mừng bạn quay lại hệ thống.</div>} />
-        </Route>
-      </Route>
+          <Route path="/" element={<Dashboard />}>
+            {/* Trang chủ động dựa trên vai trò */}
+            <Route index element={<DashboardHome />} />
 
-        {/* Role-based Routes [cite: 71] */}
-        <Route element={<ProtectedRoute allowedRoles={['SINH_VIEN']} />}>
-          <Route path="/sinh-vien/*" element={<StudentModule />} />
-        </Route>
-
-        
-
-        
-
-        <Route element={<ProtectedRoute allowedRoles={['GIANG_VIEN']} />}>
-          <Route path="/giang-vien/*" element={<TeacherModule />} />
+            {/* Admin sub-routes bên trong Dashboard */}
+            <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
+              <Route path="admin/sinh-vien" element={<StudentManager />} />
+              <Route path="admin/mon-hoc" element={<SubjectManager />} />
+              <Route path="admin/mo-lop" element={<ClassManager />} />
+            </Route>
+            
+            {/* Sinh viên sub-routes bên trong Dashboard */}
+            <Route element={<ProtectedRoute allowedRoles={['SINH_VIEN']} />}>
+              <Route path="sinh-vien/dang-ky" element={<StudentModule />} />
+            </Route>
+          </Route>
         </Route>
 
-        <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
-          <Route path="/admin/*" element={<AdminModule />} />
-        </Route>
-
-        {/* Mặc định điều hướng về login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

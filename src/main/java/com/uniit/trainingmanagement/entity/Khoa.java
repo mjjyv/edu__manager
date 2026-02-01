@@ -3,6 +3,7 @@ package com.uniit.trainingmanagement.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore; // Import thư viện này
 
 @Entity
 @Table(name = "khoa")
@@ -20,10 +21,15 @@ public class Khoa {
     private String email;
     private String dienThoai;
 
+    // SỬA LỖI: Thêm @JsonIgnore để ngắt vòng lặp ChuyenNganh -> Khoa -> ChuyenNganh...
     @OneToMany(mappedBy = "khoa", cascade = CascadeType.ALL)
+    @JsonIgnore 
+    @ToString.Exclude // Thêm cái này để tránh lỗi StackOverflow khi log
     private List<ChuyenNganh> chuyenNganhs;
 
-    // Thêm vào danh sách thuộc tính của class Khoa hiện có
+    // SỬA LỖI: Thêm @JsonIgnore để ngắt vòng lặp GiangVien -> Khoa -> GiangVien...
     @OneToMany(mappedBy = "khoa")
+    @JsonIgnore
+    @ToString.Exclude
     private List<GiangVien> giangViens;
 }

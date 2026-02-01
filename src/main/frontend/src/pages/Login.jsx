@@ -42,7 +42,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4">
             <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
                 <div className="text-center mb-10">
                     <h2 className="text-3xl font-bold text-blue-800">UNI-IT</h2>
@@ -92,6 +92,15 @@ const LoginPage = () => {
                 <div className="mt-6 text-center text-sm text-gray-500">
                     <p>Hỗ trợ kỹ thuật: it-support@uni.edu.vn</p>
                 </div>
+            </div>
+
+            <div className='mt-5 flex flex-col'>
+            Vào localhost:8080/api/auth/setup-samples để tạo dữ liệu mẫu (postman) <br /><br />
+            NguoiDung("admin", password("admin123"), "ADMIN") <br /><br />
+
+            NguoiDung("giangvien01", password("gv123"), "GIANG_VIEN") <br /><br />
+
+            NguoiDung("20210001", password("sv123"), "SINH_VIEN")
             </div>
         </div>
     );

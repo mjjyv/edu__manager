@@ -119,6 +119,32 @@ const StudentManager = () => {
         }
     };
 
+    // 1. Thêm State cho tìm kiếm Mã SV
+    const [searchMaSV, setSearchMaSV] = useState('');
+
+    // 2. Thêm hàm xử lý tìm kiếm theo Mã SV
+    const handleSearchByStudentId = async (e) => {
+        e.preventDefault();
+        if (!searchMaSV.trim()) return;
+
+        setLoading(true);
+        setError('');
+        try {
+            const data = await studentService.getById(searchMaSV.trim());
+            // Vì bảng hiển thị danh sách (Array), nhưng API trả về 1 Object
+            // Ta cần bao gói Object đó vào mảng
+            setStudents([data]); 
+            
+            // Xóa ô tìm kiếm theo lớp để tránh nhầm lẫn
+            setSearchClass(''); 
+        } catch (err) {
+            setError('Không tìm thấy sinh viên có mã: ' + searchMaSV);
+            setStudents([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="p-6 bg-gray-50 min-h-screen">
             <div className="flex justify-between items-center mb-6">
@@ -134,9 +160,12 @@ const StudentManager = () => {
                 </button>
             </div>
 
-            {/* Thanh tìm kiếm */}
-            <div className="bg-white p-4 rounded-lg shadow mb-6">
-                <form onSubmit={handleSearch} className="flex gap-4">
+            {/* KHU VỰC TÌM KIẾM */}
+            <div className="bg-white p-4 rounded-lg shadow mb-6 space-y-4"> {/* Thêm space-y-4 để tạo khoảng cách giữa 2 thanh search */}
+                
+                {/* Thanh search 1: Theo Lớp (Cũ) */}
+                <form onSubmit={handleSearch} className="flex gap-4 items-center">
+                    <label className="w-32 font-medium text-gray-600">Theo Lớp:</label>
                     <input
                         type="text"
                         placeholder="Nhập mã lớp (VD: CNTT01-K21)..."
@@ -144,11 +173,30 @@ const StudentManager = () => {
                         value={searchClass}
                         onChange={(e) => setSearchClass(e.target.value)}
                     />
-                    <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2">
-                        <Search size={18} /> Tìm kiếm
+                    <button type="submit" className="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2 w-32 justify-center">
+                        <Search size={18} /> Tìm Lớp
                     </button>
                 </form>
-                {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
+
+                {/* Thanh search 2: Theo Mã Sinh Viên (Mới - Bổ sung) */}
+                <div className="pt-4"> {/* Đường kẻ phân cách nhẹ */}
+                    <form onSubmit={handleSearchByStudentId} className="flex gap-4 items-center">
+                        <label className="w-32 font-medium text-gray-600">Theo Mã SV:</label>
+                        <input
+                            type="text"
+                            placeholder="Nhập chính xác Mã sinh viên..."
+                            className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 outline-none"
+                            value={searchMaSV}
+                            onChange={(e) => setSearchMaSV(e.target.value)}
+                        />
+                        <button type="submit" className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2 w-32 justify-center">
+                            <Search size={18} /> Tìm SV
+                        </button>
+                    </form>
+                </div>
+                
+                {/* Hiển thị lỗi chung cho cả 2 form */}
+                {error && <p className="text-red-500 mt-2 text-sm text-center font-medium bg-red-50 p-2 rounded">{error}</p>}
             </div>
 
             {/* Form thêm mới (Toggle) */}
