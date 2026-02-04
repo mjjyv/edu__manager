@@ -1,25 +1,21 @@
+# src/main/resources/application.yml
+
 spring:
+  config:
+    activate:
+      on-profile: prod
   datasource:
-    # Render cung cấp URL PostgreSQL qua biến môi trường
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
-    
     hikari:
-      pool-name: TrainingPool-Hikari
-      maximum-pool-size: 5 # Trên gói Free của Render, kết nối PostgreSQL bị giới hạn, nên để thấp (khoảng 5)
+      pool-name: TrainingPool-Hikari-Prod
+      maximum-pool-size: 5
       minimum-idle: 2
-    
-  sql:
-    init:
-      mode: always
-
   jpa:
-    # Đổi sang dialect của PostgreSQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      # Lần đầu deploy nên để 'update' để Hibernate tự tạo bảng cho bạn
       ddl-auto: update
     show-sql: true
     properties:
