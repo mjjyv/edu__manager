@@ -15,7 +15,7 @@ spring:
       minimum-idle: 2
   sql:
     init:
-      mode: always
+      mode: never
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
