@@ -13,6 +13,9 @@ spring:
       pool-name: TrainingPool-Hikari-Prod
       maximum-pool-size: 5
       minimum-idle: 2
+  sql:
+    init:
+      mode: always
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
