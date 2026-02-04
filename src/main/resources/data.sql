@@ -1,4 +1,54 @@
--- Lưu ý: Nếu bảng của bạn tên là 'user', hãy để trong dấu ngoặc kép "user" vì 'user' là từ khóa hệ thống của PostgreSQL.
+-- DỮ LIỆU KHỞI TẠO HỆ THỐNG QUẢN LÝ ĐÀO TẠO UNI-IT
+
+-- 1. Nạp dữ liệu Khoa [cite: 305]
+INSERT INTO khoa (ma_khoa, ten_khoa, email, dien_thoai) VALUES 
+('FIT', N'Công nghệ thông tin', 'fit@uni.edu.vn', '0243111222'),
+('FME', N'Cơ khí', 'fme@uni.edu.vn', '0243333444');
+
+-- 2. Nạp dữ liệu Chuyên ngành [cite: 306]
+INSERT INTO chuyen_nganh (ma_nganh, ten_nganh, ma_khoa) VALUES 
+('CNTT', N'Công nghệ thông tin', 'FIT'),
+('KHMT', N'Khoa học máy tính', 'FIT'),
+('CKD', N'Cơ khí động lực', 'FME');
+
+-- 3. Nạp dữ liệu Lớp Quản lý [cite: 307]
+INSERT INTO lop_quan_ly (ma_lop, ten_lop, ma_nganh) VALUES 
+('CNTT01-K21', N'Lớp CNTT 1 Khóa 21', 'CNTT'),
+('KHMT01-K21', N'Lớp Khoa học máy tính 1 Khóa 21', 'KHMT');
+
+-- 4. Nạp dữ liệu Giảng viên [cite: 308]
+INSERT INTO giang_vien (ma_gv, ho_ten, hoc_vi, email, ma_khoa) VALUES 
+('GV001', N'Nguyễn Văn A', N'Tiến sĩ', 'anv@uni.edu.vn', 'FIT'),
+('GV002', N'Trần Thị B', N'Thạc sĩ', 'btt@uni.edu.vn', 'FIT');
+
+-- 5. Nạp dữ liệu Môn học [cite: 309]
+INSERT INTO mon_hoc (ma_mh, ten_mh, so_tin_chi) VALUES 
+('CS101', N'Lập trình cơ bản', 3),
+('DB201', N'Cơ sở dữ liệu', 3),
+('AI301', N'Trí tuệ nhân tạo', 4);
+
+-- 6. Nạp dữ liệu Sinh viên [cite: 310]
+INSERT INTO sinh_vien (ma_sv, ho_ten, ngay_sinh, gioi_tinh, ma_lop, trang_thai) VALUES 
+('20210001', N'Lê Văn C', '2003-05-15', N'Nam', 'CNTT01-K21', 'DANG_HOC'),
+('20210002', N'Phạm Thị D', '2003-10-20', N'Nữ', 'CNTT01-K21', 'DANG_HOC');
+
+-- 7. Nạp dữ liệu Lớp học phần [cite: 311]
+INSERT INTO lop_hoc_phan (ma_lhp, ma_mh, ma_gv, hoc_ky, nam_hoc, si_so_toi_da) VALUES 
+('LHP_CS101_01', 'CS101', 'GV001', '1', '2025-2026', 40),
+('LHP_DB201_01', 'DB201', 'GV002', '1', '2025-2026', 40);
+
+-- 8. Nạp dữ liệu Đăng ký tín chỉ [cite: 312]
+INSERT INTO dang_ky (ma_sv, ma_lhp, ngay_dang_ky, trang_thai) VALUES 
+('20210001', 'LHP_CS101_01', GETDATE(), N'THANH_CONG'),
+('20210002', 'LHP_CS101_01', GETDATE(), N'THANH_CONG');
+
+-- 9. Nạp dữ liệu Điểm số mẫu [cite: 313]
+INSERT INTO diem_so (ma_sv, ma_lhp, diem_cc, diem_gk, diem_ck) VALUES 
+('20210001', 'LHP_CS101_01', 9.0, 8.5, 8.0),
+('20210002', 'LHP_CS101_01', 10.0, 7.0, 9.0);
+
+-- 10. Nạp dữ liệu Tài khoản đăng nhập (Phục vụ Security) [cite: 639, 640, 641]
+
 INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, vai_tro) 
 VALUES ('20210001', '$2a$10$fuPNyWpqBaQvBSioWJ6EhOCjk2/vMVFTuaRGX73/Wjm5UqLlBPVrO', 'SINH_VIEN')
 
